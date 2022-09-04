@@ -62,14 +62,14 @@ router
 router
   .route('/delete/:id')
   /**
-   * @api {post} /user/save 
-   * @apiDescription save a user
+   * @api {delete} /user/delete/:id 
+   * @apiDescription delete an user
    * @apiPermission admin
    *
    * @apiHeader {String} Authorization   User's access token
    *
    
-   * @apiSuccess {Object[]} get a random user.
+   * @apiSuccess {Object[]} delete an random user.
    *
    * @apiError (Unauthorized 401)  Unauthorized  Only authenticated users can access the data
    * @apiError (Forbidden 403)     Forbidden     Only admins can access the data
@@ -77,27 +77,24 @@ router
 
   .delete(userControllers.deleteUser);
 
-/**
- * @api {post} /tools save a tool
- * @apiDescription Get all the tools
- * @apiPermission admin
- *
- * @apiHeader {String} Authorization   User's access token
- *
- * @apiParam  {Number{1-}}         [page=1]     List page
- * @apiParam  {Number{1-100}}      [limit=10]  Users per page
- *
- * @apiSuccess {Object[]} all the tools.
- *
- * @apiError (Unauthorized 401)  Unauthorized  Only authenticated users can access the data
- * @apiError (Forbidden 403)     Forbidden     Only admins can access the data
- */
-//   .post(toolsControllers.saveATool);
+router
+  .route('/update/:id')
+  /**
+   * @api {patch} /update update an user
+   * @apiDescription update an user
+   * @apiPermission admin
+   *
+   * @apiHeader {String} Authorization   User's access token
+   *
+   * @apiParam  {Number{1-}}         [page=1]     List page
+   * @apiParam  {Number{1-100}}      [limit=10]  Users per page
+   *
+   * @apiSuccess {Object[]} update an user
+   *
+   * @apiError (Unauthorized 401)  Unauthorized  Only authenticated users can access the data
+   * @apiError (Forbidden 403)     Forbidden     Only admins can access the data
+   */
 
-// router
-//   .route("/:id")
-//   .get(viewCount, limiter, toolsControllers.getToolDetail)
-//   .patch(toolsControllers.updateTool)
-//   .delete(toolsControllers.deleteTool);
+  .patch(userControllers.updateAUser);
 
 module.exports = router;

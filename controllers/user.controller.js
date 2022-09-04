@@ -70,16 +70,45 @@ module.exports.deleteUser = (req, res) => {
   }
 };
 
-// module.exports.updateTool = (req, res) => {
-//   // const newData = req.body;
-//   const { id } = req.params;
-//   const filter = { _id: id };
+module.exports.updateAUser = (req, res) => {
+  const { gender, name, contact, address, photoUrl } = req.body;
+  const { id } = req.params;
+  let rawdata = fs.readFileSync('public/data.json');
+  let users = JSON.parse(rawdata);
+  console.log(users);
+  if (isNaN(id)) {
+    res.send('Plese Enter a valid id');
+  } else {
+    let requireUser = users.find((user) => user.Id === id);
+    if (requireUser) {
+      if (gender) {
+        requireUser.gender = gender;
+      } else if (name) {
+        requireUser.name = name;
+      } else if (contact) {
+        requireUser.contact = contactr;
+      } else if (address) {
+        requireUser.address = address;
+      } else if (photoUrl) {
+        requireUser.photoUrl = photoUrl;
+      }
 
-//   const newData = tools.find(tool => tool.id === Number(id));
+      users = users.filter((user) => user !== requireUser);
 
-//   newData.id = id;
-//   newData.name = req.body.name;
+      users.push(requireUser);
 
-//   res.send(newData);
+      fs.writeFileSync('public/data.json', JSON.stringify(users));
 
-// };
+      res.send('User successfully updated');
+    } else {
+      res.send('User not exist! ');
+    }
+  }
+
+  // const newData = tools.find((tool) => tool.id === Number(id));
+
+  // newData.id = id;
+  // newData.name = req.body.name;
+
+  // res.send(newData);
+};
