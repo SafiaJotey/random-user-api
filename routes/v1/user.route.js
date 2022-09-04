@@ -14,6 +14,22 @@ const router = express.Router();
 router
   .route('/all')
   /**
+   * @api {get} /user/all 
+   * @apiDescription get all random user
+   * @apiPermission admin
+   *
+   * @apiHeader {String} Authorization   User's access token
+   *
+   
+   * @apiSuccess {Object[]} get all random user.
+   *
+   * @apiError (Unauthorized 401)  Unauthorized  Only authenticated users can access the data
+   * @apiError (Forbidden 403)     Forbidden     Only admins can access the data
+   */
+  .get(userControllers.getAllrandomUser);
+router
+  .route('/random')
+  /**
    * @api {get} /user/random  
    * @apiDescription get a random user
    * @apiPermission admin

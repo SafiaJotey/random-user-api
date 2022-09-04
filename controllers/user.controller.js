@@ -1,12 +1,8 @@
 const express = require('express');
 const fs = require('fs');
-module.exports.getArandomUser = (req, res, next) => {
+module.exports.getAllrandomUser = (req, res, next) => {
   const { limit } = req.query;
-  // const limit=req.query
-  // fs.readFile('__dir' + '/public/data.json', function (err, data) {
-  //   // Display the file content
-  //   console.log(data);
-  // });
+
   let rawdata = fs.readFileSync('public/data.json');
   let users = JSON.parse(rawdata);
   let limitedUsers = users.slice(0, limit);
@@ -20,21 +16,15 @@ module.exports.getArandomUser = (req, res, next) => {
 //   res.send(tools);
 // };
 
-// module.exports.getToolDetail = (req, res) => {
-//   const {id} = req.params;
-//   console.log(id);
-//   // const filter = {_id: id};
-//   const foundTool = tools.find(tool => tool.id === Number(id));
-//   res.status(200).send({
-//     success: true,
-//     messages: "Success",
-//     data: foundTool
-//   });
-//   // res.status(500).send({
-//   //   success: false,
-//   //   error: "Internal server error."
-//   // });
-// };
+module.exports.getArandomUser = (req, res) => {
+  let rawdata = fs.readFileSync('public/data.json');
+  let users = JSON.parse(rawdata);
+  const randomIndex = Math.ceil(Math.random() * users.length);
+
+  let randomUser = users.find((user) => user.Id === String(randomIndex));
+
+  res.send(randomUser);
+};
 
 // module.exports.updateTool = (req, res) => {
 //   // const newData = req.body;
