@@ -10,11 +10,35 @@ module.exports.getAllrandomUser = (req, res, next) => {
   res.send(limitedUsers);
 };
 
-// module.exports.saveATool = (req, res) => {
-//   console.log(req.query);
-//   tools.push(req.body);
-//   res.send(tools);
-// };
+module.exports.saveAuser = (req, res) => {
+  const { gender, name, contact, address, photoUrl } = req.body;
+
+  let rawdata = fs.readFileSync('public/data.json');
+  let users = JSON.parse(rawdata);
+  let generatedId = users.length + 1;
+  req.body.Id = generatedId;
+  users.push(req.body);
+
+  fs.readFile('public/data.json', (err, data) => {
+    if (err) {
+      res.send('somethong went wrong!');
+    } else if (!gender) {
+      res.send('Please!Add a gender');
+    } else if (!name) {
+      res.send('Please!Add a name');
+    } else if (!contact) {
+      res.send('Please!Add a contact');
+    } else if (!address) {
+      res.send('Please!Add an address');
+    } else if (!photoUrl) {
+      res.send('Please!Add a photoUr');
+    } else if (data) {
+      res.write(JSON.stringify(users));
+      fs.writeFileSync('public/data.json', JSON.stringify(users));
+      res.end();
+    }
+  });
+};
 
 module.exports.getArandomUser = (req, res) => {
   let rawdata = fs.readFileSync('public/data.json');
