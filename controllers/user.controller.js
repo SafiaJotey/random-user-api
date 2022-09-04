@@ -10,6 +10,16 @@ module.exports.getAllrandomUser = (req, res, next) => {
   res.send(limitedUsers);
 };
 
+module.exports.getArandomUser = (req, res) => {
+  let rawdata = fs.readFileSync('public/data.json');
+  let users = JSON.parse(rawdata);
+  const randomIndex = Math.ceil(Math.random() * users.length);
+
+  let randomUser = users.find((user) => user.Id === String(randomIndex));
+
+  res.send(randomUser);
+};
+
 module.exports.saveAuser = (req, res) => {
   const { gender, name, contact, address, photoUrl } = req.body;
 
@@ -33,21 +43,24 @@ module.exports.saveAuser = (req, res) => {
     } else if (!photoUrl) {
       res.send('Please!Add a photoUr');
     } else if (data) {
-      res.write(JSON.stringify(users));
+      res.write('data successfully added');
       fs.writeFileSync('public/data.json', JSON.stringify(users));
       res.end();
     }
   });
 };
 
-module.exports.getArandomUser = (req, res) => {
+module.exports.deleteUser = (req, res) => {
+  const { id } = req.params;
+
   let rawdata = fs.readFileSync('public/data.json');
   let users = JSON.parse(rawdata);
-  const randomIndex = Math.ceil(Math.random() * users.length);
+  console.log(users);
 
-  let randomUser = users.find((user) => user.Id === String(randomIndex));
+  users = users.filter((user) => user.Id !== id);
+  fs.writeFileSync('public/data.json', JSON.stringify(users));
 
-  res.send(randomUser);
+  res.send('User successfully deleted');
 };
 
 // module.exports.updateTool = (req, res) => {
@@ -62,13 +75,4 @@ module.exports.getArandomUser = (req, res) => {
 
 //   res.send(newData);
 
-// };
-
-// module.exports.deleteTool = (req, res) => {
-//   const { id } = req.params;
-//   const filter = { _id: id };
-
-//   tools = tools.filter(tool => tool.id !== Number(id));
-
-//   res.send(tools);
 // };
