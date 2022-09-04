@@ -52,15 +52,22 @@ module.exports.saveAuser = (req, res) => {
 
 module.exports.deleteUser = (req, res) => {
   const { id } = req.params;
-
   let rawdata = fs.readFileSync('public/data.json');
   let users = JSON.parse(rawdata);
-  console.log(users);
 
-  users = users.filter((user) => user.Id !== id);
-  fs.writeFileSync('public/data.json', JSON.stringify(users));
+  if (isNaN(id)) {
+    res.send('Plese Enter a valid id');
+  } else {
+    let requireUser = users.find((user) => user.Id === id);
+    if (requireUser) {
+      users = users.filter((user) => user.Id !== id);
+      fs.writeFileSync('public/data.json', JSON.stringify(users));
 
-  res.send('User successfully deleted');
+      res.send('User successfully deleted');
+    } else {
+      res.send('User not exist! ');
+    }
+  }
 };
 
 // module.exports.updateTool = (req, res) => {
