@@ -1,5 +1,17 @@
+const express = require('express');
+const fs = require('fs');
 module.exports.getArandomUser = (req, res, next) => {
-  console.log('a random user');
+  const { limit } = req.query;
+  // const limit=req.query
+  // fs.readFile('__dir' + '/public/data.json', function (err, data) {
+  //   // Display the file content
+  //   console.log(data);
+  // });
+  let rawdata = fs.readFileSync('public/data.json');
+  let users = JSON.parse(rawdata);
+  let limitedUsers = users.slice(0, limit);
+
+  res.send(limitedUsers);
 };
 
 // module.exports.saveATool = (req, res) => {

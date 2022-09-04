@@ -12,7 +12,7 @@ const router = express.Router();
 // });
 
 router
-  .route('/random ')
+  .route('/all')
   /**
    * @api {get} /user/random  
    * @apiDescription get a random user
